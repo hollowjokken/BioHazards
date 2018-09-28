@@ -25,7 +25,6 @@ function Car(name, dors) {
 // Audi is a Car, it inherits from the Car "class"
 let Audi = new Car('Audi', 2, 4); //the nr of wheels is 4
 
-
 // main()
 // console.log('Car to buy:', Audi.carData());
 
