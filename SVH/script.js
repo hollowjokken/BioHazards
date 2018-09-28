@@ -190,9 +190,9 @@ function start() {
     user.showResult(outputId);
 }
 
-inputId.addEventListener("change", () => start());
-inputSelectId.addEventListener("change", () => start());
-outputSelectId.addEventListener("change", () => start());
+// inputId.addEventListener("change", () => start());
+// inputSelectId.addEventListener("change", () => start());
+// outputSelectId.addEventListener("change", () => start());
 
 
 // user.showResult(outputId);
