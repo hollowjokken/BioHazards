@@ -1,0 +1,9 @@
+.parent {
+    width: 250px;
+    padding: 20px;
+    background-color: aliceblue;
+}
+
+div {
+    margin: 20px;
+}
