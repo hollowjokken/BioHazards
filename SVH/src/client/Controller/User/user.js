@@ -1,4 +1,4 @@
-import currensy from '../../utils/constants.js';
+import currensy from '../../../utils/constants.js';
 
 export default class User {
 

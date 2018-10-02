@@ -3,6 +3,37 @@ const jwt = require('jsonwebtoken');
 
 const app = express();
 
+const data = {
+    username: 'asd@asd.com',
+    password: 'asdasd',
+    users: [{
+            name: 'Frank',
+            email: 'frank@asd.com',
+            password: 'frank',
+            age: 21
+        },
+        {
+            name: 'Jack',
+            email: 'jack@asd.com',
+            password: 'jack',
+            age: 40
+        },
+        {
+            name: 'Tomas',
+            email: 'tomas@asd.com',
+            password: 'tomas',
+            age: 32
+        }
+    ],
+    location: {
+        country: 'Romania',
+        zone: 'Cluj',
+        adress: 'timis',
+        nr: 17
+    },
+    access: true
+};
+
 app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
@@ -11,7 +42,7 @@ app.use((req, res, next) => {
 
 app.get('/api', (req, res) => {
     res.json({
-        message: 'Works!'
+        data
     });
 });
 
