@@ -1,8 +1,5 @@
 'use strict'
-// import request from '../node_modules/request-promise.js';
 import User from './src/client/Controller/User/user.js';
-// import rp from '../request-promise';
-// import rp from 'request-promise';
 
 const inputId = document.getElementById('input-amount');
 const outputId = document.getElementById('output-amount');
@@ -22,6 +19,7 @@ inputId.addEventListener("change", () => start());
 inputSelectId.addEventListener("change", () => start());
 outputSelectId.addEventListener("change", () => start());
 
+//GET request with clallback()
 function getData(theUrl, callBackFunction) {
     let xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = function() {
@@ -41,49 +39,61 @@ function callBackFunction(data) {
 }
 submitBtn.addEventListener("click", () => getData('http://localhost:5000/api', callBackFunction));
 
-// rp('http://localhost:5000/api')
-//     .then(function(data) {
-//         console.log('data:', data)
-//     })
-//     .catch(function(err) {
-//         console.log('err', err)
-//     
-// });
-
-// let promise = new Promise((res, rej) => {
-//     let xmlHttp = new XMLHttpRequest();
-//     xmlHttp.onreadystatechange = function() {
-
-//     if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
-//         res(xmlHttp.responseText);
-//         console.log(xmlHttp.responseText);
-//     }
-// })
-
-// promise.then(function(value) {
-//     console.log(value);
-//     // expected output: "foo"
-// });
-function getPromisData(theUrl) {
+//GET request with promise()
+function getPromiseData(theUrl) {
     return new Promise(function(resolve, reject) {
-
-
         let xmlHttp = new XMLHttpRequest();
-        xmlHttp.onreadystatechange = function() {
-            if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
-                // callBackFunction(xmlHttp.responseText);
-                return resolve(xmlHttp.responseText);
-            } else {
-                reject('Error');
-            }
-        }
-        console.log('theUrl', theUrl);
         xmlHttp.open("GET", theUrl, true); // true for asynchronous 
+        xmlHttp.onload = () => {
+            xmlHttp.status === 200 ? resolve(xmlHttp.responseText) : reject(Error(`Errors: ${xmlHttp.statusText}`));
+        }
+        xmlHttp.onerror = () => reject(Error(`Errors: ${xmlHttp.statusText}`));
         xmlHttp.send();
     });
 }
 
+// submitPromisBtn.addEventListener("click", () => {
+//     Promise.all([
+//             getPromiseData('http://localhost:5000/api'),
+//             getPromiseData('http://localhost:5000/apii'),
+//             getPromiseData('http://localhost:5000/apiii')
+//         ])
+//         .then((response) => {
+//             console.log('RESPONSE:', response);
+//             response.forEach((data) => {
+//                 console.log('DATA:', JSON.parse(data));
+//             })
+//         })
+//         .catch((error) => { console.log('error', error) })
+// });
+
+//POST for login 
+function apiPromisRequest(apiType, apiUrl, data, jwtoken) {
+    return new Promise(function(resolve, reject) {
+        let xmlHttp = new XMLHttpRequest();
+        xmlHttp.open(apiType, apiUrl, true); // true for asynchronous 
+        xmlHttp.onload = () => {
+            xmlHttp.status === 200 ? resolve(xmlHttp.responseText) : reject(Error(`Errors: ${xmlHttp.statusText}`));
+        }
+        if (jwtoken) xmlHttp.setRequestHeader('Authorization', 'Bearer ' + jwtoken);
+        xmlHttp.onerror = () => reject(Error(`Errors: ${xmlHttp.statusText}`));
+
+        var blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+
+        xmlHttp.send(blob);
+    });
+}
+
 submitPromisBtn.addEventListener("click", () => {
-    getPromisData('http://localhost:5000/api')
-        .then((response) => { console.log(response) })
+    const apiType = 'POST';
+    const apiUrl = 'http://localhost:5000/api/login';
+    const data = {
+        username: 'asdasd',
+        password: 'asdasd'
+    };
+    apiPromisRequest(apiType, apiUrl, data)
+        .then((response) => {
+            console.log('RESPONSE:', response);
+        })
+        .catch((error) => { console.log('error', error) })
 });

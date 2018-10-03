@@ -11,6 +11,6 @@ const currensy = {
     HUF_RON: 0.014,
     HUF_EUR: 0.003,
     HUF_USD: 0.003
-}
+};
 
 export default currensy;
